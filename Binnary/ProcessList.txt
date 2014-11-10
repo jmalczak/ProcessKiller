@@ -1,0 +1,5 @@
+﻿#ignored
+tokill
+
+totalcmd
+to kill 2
