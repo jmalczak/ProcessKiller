@@ -28,5 +28,23 @@
 
             Assert.AreEqual(2, processesToKill.Count);
         }
+
+        [TestMethod]
+        public void ReadProcessName()
+        {
+            var fileReader = this.Execute();
+            var processesToKill = fileReader.ReadProcessesToKill();
+
+            Assert.AreEqual("tokill", processesToKill[0].ProcessName);
+        }
+
+        [TestMethod]
+        public void ReadProcessDelay()
+        {
+            var fileReader = this.Execute();
+            var processesToKill = fileReader.ReadProcessesToKill();
+
+            Assert.AreEqual(12, processesToKill[0].ProcessKillDelayInSeconds);
+        }
     }
 }

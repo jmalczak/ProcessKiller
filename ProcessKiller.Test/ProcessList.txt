@@ -1,5 +1,5 @@
 ﻿#ignored
-tokill
+tokill;12
 
 
 to kill 2
