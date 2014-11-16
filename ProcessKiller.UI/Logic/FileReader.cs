@@ -4,7 +4,7 @@
     using System.IO;
     using System.Linq;
 
-    using global::ProcessKiller.Model;
+    using Model;
 
     public class FileReader
     {
@@ -13,11 +13,11 @@
         private const int ProcessNameIndex = 0;
         private const int ProcessKillDelayInSecondsIndex = 1;
 
-        private readonly string filePath;
+        private readonly string _filePath;
 
         public FileReader(string filePath)
         {
-            this.filePath = filePath;
+            this._filePath = filePath;
         }
 
         public List<KillModel> ReadProcessesToKill()
@@ -52,7 +52,7 @@
 
         private List<string> ReadConfiguration()
         {
-            var allLines = File.ReadAllLines(this.filePath);
+            var allLines = File.ReadAllLines(this._filePath);
             return allLines.Where(l => !l.StartsWith(CommentString) && l != string.Empty)
                            .Select(l => l.ToLower())
                            .ToList();

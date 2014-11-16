@@ -1,4 +1,6 @@
-﻿namespace ProcessKiller.Logic
+﻿using System.Collections.Generic;
+
+namespace ProcessKiller.Logic
 {
     using System;
     using System.Linq;
@@ -17,7 +19,7 @@
         [UsedImplicitly]
         private Timer timer;
 
-        private DateTime startTime;
+        private Dictionary<string, DateTime> startTimes = new Dictionary<string, DateTime>() ;
 
         public ProcessKiller()
         {
@@ -28,7 +30,6 @@
         public void Run()
         {
             var defaultRunTime = TimeSpan.FromSeconds(1);
-            this.startTime = DateTime.Now;
             this.timer = new Timer(o => this.KillProcesses(), null, defaultRunTime, defaultRunTime);
         }
 
@@ -47,13 +48,25 @@
             {
                 try
                 {
-                    var secondsFromStart = (DateTime.Now - this.startTime).TotalSeconds;
+                    DateTime startTime = DateTime.Now;
+
+                    if (!this.startTimes.ContainsKey(processToKill.Process.Name))
+                    {
+                        this.startTimes.Add(processToKill.Process.Name, startTime);
+                    }
+                    else
+                    {
+                        startTime = this.startTimes[processToKill.Process.Name];
+                    }
+
+                    var secondsFromStart = (DateTime.Now - startTime).TotalSeconds;
                     
                     if (processToKill.ProcessConfiguration.ProcessKillDelayInSeconds > secondsFromStart)
                     {
                         continue;
                     }
 
+                    this.startTimes[processToKill.Process.Name] = DateTime.Now;
                     this.processManager.Kill(processToKill.Process);
                 }
                 // ReSharper disable once EmptyGeneralCatchClause
