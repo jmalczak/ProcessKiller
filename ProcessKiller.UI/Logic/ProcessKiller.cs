@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace ProcessKiller.Logic
+﻿namespace ProcessKiller.Logic
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
 
@@ -16,10 +15,10 @@ namespace ProcessKiller.Logic
 
         private readonly FileReader fileReader;
 
+        private readonly Dictionary<string, DateTime> startTimes = new Dictionary<string, DateTime>();
+
         [UsedImplicitly]
         private Timer timer;
-
-        private Dictionary<string, DateTime> startTimes = new Dictionary<string, DateTime>() ;
 
         public ProcessKiller()
         {
